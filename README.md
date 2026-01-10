@@ -8,3 +8,9 @@ trabajo final python pro
 >
 > Solucion: Motivar a las personas a reciclar papel y plastico,
 > incentivando y haciendo visible el esfuerzo de otras personas
+>
+> ## Este es mi tipo de proyecto:
+> Bot de Discord
+>
+> ## Bibliotecas usadas:
+> Discord 2.3.2
