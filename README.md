@@ -1,4 +1,4 @@
-# cambio-climatico
+# The Recycling Rising
 trabajo final python pro
 
 ## Esta es la idea de mi proyecto:
@@ -10,7 +10,16 @@ trabajo final python pro
 > incentivando y haciendo visible el esfuerzo de otras personas
 >
 > ## Este es mi tipo de proyecto:
-> Bot de Discord
+> Mi proyecto es un Bot de Discord que responde preguntas sobre reciclaje
 >
 > ## Bibliotecas usadas:
 > Discord 2.3.2
+>
+> ## Autor
+> Willian Timaure
+>
+> ## Curso
+> Kodland Python Pro 6452
+>
+> ## Paso a paso
+>1. En VScode primero hay que crear el entorno virtual usando el comando pipenv shell
