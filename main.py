@@ -4,6 +4,11 @@ import asyncio
 from discord.ext import commands
 import os
 import pyttsx3 
+from tips import tips
+from preguntas import preguntas
+
+
+voz_lock = asyncio.Lock()
 
 
 # 🔽 DEFINE LA FUNCIÓN AQUÍ
@@ -11,6 +16,27 @@ async def log_event(guild: discord.Guild, embed: discord.Embed):
     canal = discord.utils.get(guild.text_channels, name="logs-bots")
     if canal:
         await canal.send(embed=embed)
+
+
+def hablar_local(texto: str):
+    engine = pyttsx3.init()        # 🔁 motor nuevo cada vez
+    engine.setProperty('rate', 160)
+    engine.setProperty('volume', 1.0)
+
+    for voz in engine.getProperty('voices'):
+        if "spanish" in voz.name.lower():
+            engine.setProperty('voice', voz.id)
+            break
+
+    engine.say(texto)
+    engine.runAndWait()
+    engine.stop()                  # 🔥 libera recursos
+
+async def hablar_async(texto: str):
+    async with voz_lock:  # 🔒 evita llamadas simultáneas
+        loop = asyncio.get_running_loop()
+        await loop.run_in_executor(None, hablar_local, texto)
+
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -86,82 +112,72 @@ async def ayuda(interaction: discord.Interaction):
     await interaction.response.send_message(help_text)
 
 
-@bot.tree.command(name="amarillo",
-                  description="Info sobre el contenedor amarillo")
+@bot.tree.command(name="amarillo", description="Info sobre el contenedor amarillo")
 async def amarillo(interaction: discord.Interaction):
+    texto = "El contenedor amarillo es para envases de plástico, latas y briks."
+
     embed = discord.Embed(
         title="🟡 Contenedor Amarillo",
-        description="Aquí van **envases de plástico**, **latas** y **briks**.",
+        description="Aquí van envases de plástico, latas y briks.",
         color=discord.Color.yellow()
     )
+
     await interaction.response.send_message(embed=embed)
+    await hablar_async(texto)
+
 
 
 @bot.tree.command(name="azul", description="Info sobre el contenedor azul")
 async def azul(interaction: discord.Interaction):
+    texto = "El contenedor azul es para papel y cartón."
+
     embed = discord.Embed(
         title="🔵 Contenedor Azul",
         description="Aquí van **papel** y **cartón**.",
         color=discord.Color.blue()
     )
     await interaction.response.send_message(embed=embed)
+    await hablar_async(texto)
 
 
 @bot.tree.command(name="verde", description="Info sobre el contenedor verde")
 async def verde(interaction: discord.Interaction):
+    texto = "El contenedor verde es para vidrio."
+
     embed = discord.Embed(
         title="🟢 Contenedor Verde",
         description="Aquí va **vidrio**.",
         color=discord.Color.green()
     )
     await interaction.response.send_message(embed=embed)
+    await hablar_async(texto)
 
 
 @bot.tree.command(name="marron", description="Info sobre el contenedor marrón")
 async def marron(interaction: discord.Interaction):
+    texto = "El contenedor marrón es para residuos orgánicos."
+
     embed = discord.Embed(
         title="🟤 Contenedor Marrón",
         description="Aquí van **residuos orgánicos**.",
         color=discord.Color.dark_gold()
     )
     await interaction.response.send_message(embed=embed)
+    await hablar_async(texto)
 
 
 @bot.tree.command(name="gris", description="Info sobre el contenedor gris")
 async def gris(interaction: discord.Interaction):
+    texto = "El contenedor gris es para basura general."
+
     embed = discord.Embed(
         title="⚫ Contenedor Gris",
         description="Aquí va **basura general**.",
         color=discord.Color.dark_grey()
     )
     await interaction.response.send_message(embed=embed)
+    await hablar_async(texto)
 
-preguntas = [
-    {
-        "pregunta": "¿Dónde se tira un cuaderno usado sin espiral?",
-        "opciones": ["Azul", "Amarillo", "Gris", "Verde"],
-        "respuesta": "Azul",
-        "explicacion": "El papel y cartón limpios van al contenedor azul."
-    },
-    {
-        "pregunta": "¿Cuántas veces se puede reciclar el papel?",
-        "opciones": ["Una vez", "Dos veces", "Hasta 7 veces", "Infinitas veces"],
-        "respuesta": "Hasta 7 veces",
-        "explicacion": "Las fibras del papel se degradan y permiten reciclarlo hasta unas 7 veces."
-    },
-    {
-        "pregunta": "¿Qué tipo de plástico NO se debe reciclar en el contenedor amarillo?",
-        "opciones": ["Botellas", "Envases", "Juguetes", "Bolsas"],
-        "respuesta": "Juguetes",
-        "explicacion": "Los juguetes no son envases y deben ir a puntos limpios o basura general."
-    },
-    {
-        "pregunta": "¿Reciclar papel ayuda a ahorrar qué recurso?",
-        "opciones": ["Petróleo", "Árboles", "Gas", "Metal"],
-        "respuesta": "Árboles",
-        "explicacion": "Reciclar papel reduce la tala de árboles y el consumo de agua."
-    }
-]
 
 
 class TriviaView(discord.ui.View):
@@ -201,6 +217,8 @@ class TriviaButton(discord.ui.Button):
             color = discord.Color.red()
             resultado = f"La respuesta correcta era **{self.pregunta['respuesta']}**."
 
+        
+
         embed = discord.Embed(
             title=titulo,
             description=(
@@ -210,10 +228,13 @@ class TriviaButton(discord.ui.Button):
             color=color
         )
 
+        texto = f"{embed.description} "
+
         for item in self.view.children:
             item.disabled = True
 
         await interaction.response.edit_message(embed=embed, view=self.view)
+        await hablar_async(texto)
         self.view.stop()
 
 
@@ -222,6 +243,7 @@ class TriviaButton(discord.ui.Button):
 async def trivia(interaction: discord.Interaction):
 
     pregunta = random.choice(preguntas)
+    texto = pregunta["pregunta"]
 
     embed = discord.Embed(
         title="♻️ Trivia de Reciclaje",
@@ -231,20 +253,24 @@ async def trivia(interaction: discord.Interaction):
 
     view = TriviaView(pregunta, interaction.user)
     await interaction.response.send_message(embed=embed, view=view)
+    await hablar_async(texto)
 
-
-
-tips = [
-    "🏠 Coloca contenedores de reciclaje en casa para facilitar el hábito.",
-    "🧠 Infórmate sobre las reglas de reciclaje de tu ciudad.",
-    "👨‍👩‍👧‍👦 Enseña a otros a reciclar y multiplica el impacto positivo."
-]
 
 
 
 @bot.tree.command(name="tip", description="Consejo ecológico aleatorio")
 async def tip(interaction: discord.Interaction):
-    await interaction.response.send_message(random.choice(tips))
+
+    tip = random.choice(tips)
+    texto = tip
+
+    embed = discord.Embed(
+        title="💡 Consejo Ecológico",
+        description=tip,
+        color=discord.Color.green()
+    )
+    await interaction.response.send_message(embed=embed)
+    await hablar_async(texto)
 
 
 @bot.tree.command(name="mem", description="Envía una imagen aleatoria")
