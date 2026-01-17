@@ -1,0 +1,5 @@
+0 plastico/amarillo
+1 papel/azul
+2 vidrio/verde
+3 organico/marron
+4 no_reciclable/negro
