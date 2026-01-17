@@ -32,6 +32,11 @@ trabajo final python pro
 > 1.Main.py
 > 2.tips.py y preguntas.py que son usados por main.py
 > 3.un txt con paquetes que se deben instalar manualmente
-> 4.carpetas con imagenes que use para entrenar un modelo de vision por ordenador (que trate de implementar pero no se pudo
+> 4.carpetas con imagenes que use para entrenar un modelo de vision por ordenador (que trate de implementar pero no se pudo)
+>
+> ## Nota adicional:
+> Trate de implementar un modelo keras hecho en google teachable machine
+>  pero no se pudo debido a problemas de compatibilidad que para implementarlo
+>  hubiera significado sacrificar el entorno virtual
 
 > ## Este proyecto es para fines educativos
