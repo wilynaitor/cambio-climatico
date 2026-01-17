@@ -30,7 +30,8 @@ def hablar_local(texto: str):
 
     engine.say(texto)
     engine.runAndWait()
-    engine.stop()                  # 🔥 libera recursos
+    engine.stop()      
+
 
 async def hablar_async(texto: str):
     async with voz_lock:  # 🔒 evita llamadas simultáneas
@@ -112,72 +113,214 @@ async def ayuda(interaction: discord.Interaction):
     await interaction.response.send_message(help_text)
 
 
-@bot.tree.command(name="amarillo", description="Info sobre el contenedor amarillo")
+@bot.tree.command(name="amarillo", description="Info y dudas frecuentes del contenedor amarillo")
 async def amarillo(interaction: discord.Interaction):
-    texto = "El contenedor amarillo es para envases de plástico, latas y briks."
+    texto = (
+        "El contenedor amarillo es para envases de plástico, latas y briks."
+    )
 
     embed = discord.Embed(
-        title="🟡 Contenedor Amarillo",
-        description="Aquí van envases de plástico, latas y briks.",
+        title="🟡 Contenedor Amarillo — Plásticos",
         color=discord.Color.yellow()
     )
 
+    embed.add_field(
+        name="✅ SÍ va",
+        value="• Botellas\n• Envases\n• Tapas\n• Latas",
+        inline=False
+    )
+
+    embed.add_field(
+        name="❌ NO va",
+        value="• Juguetes\n• Plásticos duros\n• Cubiertos",
+        inline=False
+    )
+
+    embed.add_field(
+        name="❓ Preguntas frecuentes",
+        value=(
+            "**¿Botella con tapa?** ✅ Sí\n"
+            "**¿Envase sucio?** ⚠️ Mejor enjuagar\n"
+            "**¿Bolsas de plástico?** ✅ Sí"
+        ),
+        inline=False
+    )
+
+    embed.add_field(
+        name="🌍 Impacto climático",
+        value="Reciclar plástico reduce el uso de petróleo y las emisiones.",
+        inline=False
+    )
+
     await interaction.response.send_message(embed=embed)
     await hablar_async(texto)
 
 
-
-@bot.tree.command(name="azul", description="Info sobre el contenedor azul")
+@bot.tree.command(name="azul", description="Info y dudas frecuentes del contenedor azul")
 async def azul(interaction: discord.Interaction):
-    texto = "El contenedor azul es para papel y cartón."
+    texto = (
+        "El contenedor azul es para papel y cartón limpios. "
+        "No se deben tirar papeles sucios o con grasa."
+    )
 
     embed = discord.Embed(
-        title="🔵 Contenedor Azul",
-        description="Aquí van **papel** y **cartón**.",
+        title="🔵 Contenedor Azul — Papel y Cartón",
         color=discord.Color.blue()
     )
+
+    embed.add_field(
+        name="✅ SÍ va",
+        value="• Hojas\n• Revistas\n• Cajas limpias\n• Folletos",
+        inline=False
+    )
+
+    embed.add_field(
+        name="❌ NO va",
+        value="• Servilletas usadas\n• Papel con grasa\n• Cartón mojado",
+        inline=False
+    )
+
+    embed.add_field(
+        name="❓ Preguntas frecuentes",
+        value=(
+            "**¿La caja de pizza?** ❌ Solo si está limpia\n"
+            "**¿Papel arrugado?** ✅ Sí\n"
+            "**¿Papel mojado?** ❌ No"
+        ),
+        inline=False
+    )
+
+    embed.add_field(
+        name="🌍 Impacto climático",
+        value="Reciclar papel reduce la tala de árboles que absorben CO₂.",
+        inline=False
+    )
+
     await interaction.response.send_message(embed=embed)
     await hablar_async(texto)
 
 
-@bot.tree.command(name="verde", description="Info sobre el contenedor verde")
+@bot.tree.command(name="verde", description="Info y dudas frecuentes del contenedor verde")
 async def verde(interaction: discord.Interaction):
-    texto = "El contenedor verde es para vidrio."
+    texto = "El contenedor verde es para envases de vidrio, no para cristales."
 
     embed = discord.Embed(
-        title="🟢 Contenedor Verde",
-        description="Aquí va **vidrio**.",
+        title="🟢 Contenedor Verde — Vidrio",
         color=discord.Color.green()
     )
+
+    embed.add_field(
+        name="✅ SÍ va",
+        value="• Botellas de vidrio\n• Frascos\n• Tarros",
+        inline=False
+    )
+
+    embed.add_field(
+        name="❌ NO va",
+        value="• Cristales\n• Espejos\n• Cerámica\n• Bombillas",
+        inline=False
+    )
+
+    embed.add_field(
+        name="❓ Preguntas frecuentes",
+        value=(
+            "**¿Con tapa?** ❌ Quitar tapa\n"
+            "**¿Vidrio roto?** ✅ Sí\n"
+            "**¿Vasos?** ❌ No"
+        ),
+        inline=False
+    )
+
+    embed.add_field(
+        name="🌍 Impacto ambiental",
+        value="El vidrio se recicla infinitas veces sin perder calidad.",
+        inline=False
+    )
+
     await interaction.response.send_message(embed=embed)
     await hablar_async(texto)
 
 
-@bot.tree.command(name="marron", description="Info sobre el contenedor marrón")
+@bot.tree.command(name="marron", description="Info y dudas frecuentes del contenedor marrón")
 async def marron(interaction: discord.Interaction):
     texto = "El contenedor marrón es para residuos orgánicos."
 
     embed = discord.Embed(
-        title="🟤 Contenedor Marrón",
-        description="Aquí van **residuos orgánicos**.",
+        title="🟤 Contenedor Marrón — Orgánicos",
         color=discord.Color.dark_gold()
     )
+
+    embed.add_field(
+        name="✅ SÍ va",
+        value="• Restos de comida\n• Cáscaras\n• Posos de café\n• Servilletas sucias",
+        inline=False
+    )
+
+    embed.add_field(
+        name="❌ NO va",
+        value="• Plásticos\n• Metales\n• Vidrio",
+        inline=False
+    )
+
+    embed.add_field(
+        name="❓ Preguntas frecuentes",
+        value=(
+            "**¿Huesos?** ⚠️ Depende del municipio\n"
+            "**¿Bolsas compostables?** ✅ Sí\n"
+            "**¿Servilletas usadas?** ✅ Sí"
+        ),
+        inline=False
+    )
+
+    embed.add_field(
+        name="🌍 Impacto climático",
+        value="Separar orgánicos reduce metano en vertederos.",
+        inline=False
+    )
+
     await interaction.response.send_message(embed=embed)
     await hablar_async(texto)
 
 
-@bot.tree.command(name="gris", description="Info sobre el contenedor gris")
+@bot.tree.command(name="gris", description="Info y dudas frecuentes del contenedor gris")
 async def gris(interaction: discord.Interaction):
-    texto = "El contenedor gris es para basura general."
+    texto = "El contenedor gris es para residuos no reciclables."
 
     embed = discord.Embed(
-        title="⚫ Contenedor Gris",
-        description="Aquí va **basura general**.",
+        title="⚫ Contenedor Gris — Basura General",
         color=discord.Color.dark_grey()
     )
+
+    embed.add_field(
+        name="🗑️ Qué va aquí",
+        value="• Residuos no reciclables\n• Colillas\n• Pañales\n• Toallitas",
+        inline=False
+    )
+
+    embed.add_field(
+        name="❌ No debería ir",
+        value="• Papel limpio\n• Plásticos reciclables\n• Vidrio",
+        inline=False
+    )
+
+    embed.add_field(
+        name="❓ Preguntas frecuentes",
+        value=(
+            "**¿Juguetes rotos?** ❌ Punto limpio\n"
+            "**¿Cerámica?** ❌ Punto limpio\n"
+            "**¿Polvo de barrer?** ✅ Sí"
+        ),
+        inline=False
+    )
+
+    embed.add_field(
+        name="🌍 Impacto ambiental",
+        value="Reducir este contenedor es clave para frenar la contaminación.",
+        inline=False
+    )
+
     await interaction.response.send_message(embed=embed)
     await hablar_async(texto)
-
 
 
 class TriviaView(discord.ui.View):
@@ -238,7 +381,6 @@ class TriviaButton(discord.ui.Button):
         self.view.stop()
 
 
-
 @bot.tree.command(name="trivia", description="Trivia interactiva con botones")
 async def trivia(interaction: discord.Interaction):
 
@@ -254,8 +396,6 @@ async def trivia(interaction: discord.Interaction):
     view = TriviaView(pregunta, interaction.user)
     await interaction.response.send_message(embed=embed, view=view)
     await hablar_async(texto)
-
-
 
 
 @bot.tree.command(name="tip", description="Consejo ecológico aleatorio")
@@ -281,5 +421,3 @@ async def mem(interaction: discord.Interaction):
 
 TOKEN = os.getenv("DISCORD_TOKEN")
 bot.run(TOKEN)
-
- 
