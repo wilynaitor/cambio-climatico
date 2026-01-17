@@ -28,3 +28,11 @@ trabajo final python pro
 >5. cree el bot en el portal de discord y guarde el token en una variable de entorno
 >6. ya el bot deberia estar trabajando, ejecute main.py y use el comando /help para ver que hace cada comando y experimente
 >7. para crear el modelo keras use google teachable machine
+>
+>## Archivos
+> 1.Main.py
+> 2.tips.py y preguntas.py que son usados por main.py
+> 3.un txt con paquetes que se deben instalar manualmente
+> 4.carpetas con imagenes que use para entrenar un modelo de vision por ordenador
+
+> ## Este proyecto es para fines educativos
