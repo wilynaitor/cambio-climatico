@@ -23,7 +23,8 @@ trabajo final python pro
 >
 > ## Paso a paso
 >1. En VScode primero hay que crear el entorno virtual usando el comando pipenv shell
->2. instalar las librerias de discord y pyttsx3 usando pipenv install
->3. crear una carpeta llamada images con memes que el bot pueda usar con el comando mem
->4. cree el bot en el portal de discord y guarde el token en una variable de entorno
->5. ya el bot deberia estar trabajando, ejecute main.py y use el comando /help para ver que hace cada comando y experimente
+>2. instalar las librerias que se encuentran en el requirements.txt usando pipenv install
+>4. crear una carpeta llamada images con memes que el bot pueda usar con el comando mem
+>5. cree el bot en el portal de discord y guarde el token en una variable de entorno
+>6. ya el bot deberia estar trabajando, ejecute main.py y use el comando /help para ver que hace cada comando y experimente
+>7. para crear el modelo keras use google teachable machine
